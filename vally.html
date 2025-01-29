@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💘</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #ffb3c1;
+            font-family: 'Brush Script MT', cursive;
+            position: relative;
+        }
+
+        .background {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart, .rose {
+            position: absolute;
+            opacity: 0.7;
+            animation: float 8s infinite linear;
+        }
+
+        .heart::before {
+            content: '❤️';
+            font-size: 30px;
+        }
+
+        .rose::before {
+            content: '🌹';
+            font-size: 40px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+            padding: 2rem;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #c70039;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 2s;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 2rem;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #yesBtn {
+            background: #c70039;
+            color: white;
+        }
+
+        #noBtn {
+            background: #4a4a4a;
+            color: white;
+        }
+
+        .question {
+            display: none;
+            animation: fadeIn 1s;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .celebrate {
+            position: fixed;
+            font-size: 40px;
+            animation: pop 0.5s;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+      
+    <div class="container">
+        <div class="question active" id="q1">
+            <h1>My Dearest, Will You Be My Valentine? 💖</h1>
+            <div class="buttons">
+                <button id="yesBtn" onclick="nextQuestion()">Yes! Absolutely! 😍</button>
+                <!-- Fixed event parameter passing -->
+                <button id="noBtn" onmouseover="moveButton(event)" onclick="moveButton(event)">I'm thinking... 🫣</button>
+            </div>
+        </div>
+        <div class="question" id="q2">
+            <h1>Will You Go on a Romantic Dinner Date With Me? 🍷</h1>
+            <div class="buttons">
+                <button onclick="nextQuestion()">Of Course! 🥂</button>
+                <button onmouseover="moveButton()" onclick="moveButton()">Maybe... 😳</button>
+            </div>
+        </div>
+
+        <div class="question" id="q3">
+            <h1>Will You Accept This Rose? 🌹</h1>
+            <div class="buttons">
+                <button onclick="celebrate()">Yes, I Adore Roses! 💐</button>
+                <button onclick="window.open('https://www.google.com/search?q=how+to+accept+roses')">How? 😅</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createParticles() {
+            const background = document.getElementById('background');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = Math.random() > 0.5 ? 'heart' : 'rose';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = Math.random() * -8 + 's';
+                background.appendChild(particle);
+            }
+        }
+
+        function moveButton() {
+            const btn = event.target;
+            btn.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
+        }
+
+        function nextQuestion() {
+            const current = document.querySelector('.question.active');
+            const next = current.nextElementSibling;
+            
+            if (next) {
+                current.classList.remove('active');
+                next.classList.add('active');
+                createCelebration();
+            }
+        }
+
+        function createCelebration() {
+            for (let i = 0; i < 20; i++) {
+                const celeb = document.createElement('div');
+                celeb.className = 'celebrate';
+                celeb.innerHTML = ['🎉', '💖', '🎊', '💝'][Math.floor(Math.random() * 4)];
+                celeb.style.left = Math.random() * 100 + 'vw';
+                celeb.style.top = Math.random() * 100 + 'vh';
+                document.body.appendChild(celeb);
+                setTimeout(() => celeb.remove(), 1000);
+            }
+        }
+
+        function celebrate() {
+            createCelebration();
+            setTimeout(() => {
+                alert("You've made me the happiest person! 💘 Let's make beautiful memories together! 💞");
+            }, 500);
+        }
+
+                // Fixed moveButton function with event parameter
+                function moveButton(event) {
+            const btn = event.target;
+            btn.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
+        }
+        // Initialize
+        createParticles();
+    </script>
+</body>
+</html>
